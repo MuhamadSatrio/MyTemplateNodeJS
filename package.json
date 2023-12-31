@@ -1,0 +1,76 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "_moduleAliases": {
+    "#app": "src/app.js",
+    "#controllers": "src/controllers",
+    "#errors": "src/errors",
+    "#helpers": "src/helpers",
+    "#middlewares": "src/middlewares",
+    "#models": "src/models",
+    "#routers": "src/routers",
+    "#services": "src/services"
+  },
+  "dependencies": {
+    "ajv": "^8.11.0",
+    "ajv-formats": "^2.1.1",
+    "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "eslint-plugin-n": "^15.2.4",
+    "express": "^4.18.1",
+    "express-async-errors": "^3.1.1",
+    "faker": "^5.5.3",
+    "jsonwebtoken": "^9.0.0",
+    "ldapjs": "^2.3.3",
+    "link-module-alias": "^1.2.0",
+    "module-alias": "^2.2.2",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.6.2",
+    "nanoid": "^3.1.25",
+    "node-schedule": "^2.1.0",
+    "pg": "^8.7.3",
+    "sequelize": "^6.20.1",
+    "uuid": "^8.3.2",
+    "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.19.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jasmine": "^4.1.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "nodemon": "^2.0.16",
+    "sequelize-cli": "^6.4.1"
+  },
+  "scripts": {
+    "start": "node src/app.js",
+    "watch": "nodemon src/app.js",
+    "preinstall": "npm list link-module-alias && link-module-alias clean || true",
+    "postinstall": "link-module-alias",
+    "test": "export NODE_ENV=test && check-node-version --node '>= 12.18.2' && eslint src/** && eslint db/** && nyc jasmine --reporter=jasmine-console-reporter",
+    "lint": "npx eslint --fix .",
+    "lint-changes": "npx eslint --fix $(git diff --name-only HEAD '**/*.js' | xargs)",
+    "migrate": "npx sequelize db:migrate&&npx sequelize db:seed:all",
+    "migrate-undo": "npx sequelize db:seed:undo:all&&npx sequelize db:migrate:undo:all",
+    "migrate-test": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all",
+    "deploy": "service filebeat start && npm run migrate && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/paragon-is/solution-delivery-operations/request-non-spk-be.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/paragon-is/solution-delivery-operations/request-non-spk-be/issues"
+  },
+  "homepage": "https://gitlab.com/paragon-is/solution-delivery-operations/request-non-spk-be#readme"
+}
