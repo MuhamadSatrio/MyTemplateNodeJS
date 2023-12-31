@@ -7,7 +7,7 @@ const dbConfig = {
     port: process.env.DATABASE_PORT,
     database: process.env.DATABASE_NAME,
     host: process.env.DATABASE_HOST,
-    dialect: 'mysql',
+    dialect: 'postgres',
     logging: false,
     seederStorage: 'sequelize',
     pool: {
@@ -24,7 +24,7 @@ const dbConfig = {
     database: process.env.DATABASE_NAME,
     host: process.env.DATABASE_HOST,
     logging: false,
-    dialect: 'mysql',
+    dialect: 'postgres',
     seederStorage: 'sequelize',
     pool: {
       max: 20,
@@ -40,7 +40,7 @@ const dbConfig = {
     database: process.env.DATABASE_NAME,
     host: process.env.DATABASE_HOST,
     logging: false,
-    dialect: 'mysql',
+    dialect: 'postgres',
     seederStorage: 'sequelize',
     pool: {
       max: 20,
