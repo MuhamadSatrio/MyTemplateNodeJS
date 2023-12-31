@@ -63,14 +63,9 @@
     "deploy": "service filebeat start && npm run migrate && npm run start"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://gitlab.com/paragon-is/solution-delivery-operations/request-non-spk-be.git"
+    "type": "git"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://gitlab.com/paragon-is/solution-delivery-operations/request-non-spk-be/issues"
-  },
-  "homepage": "https://gitlab.com/paragon-is/solution-delivery-operations/request-non-spk-be#readme"
+  "license": "ISC"
 }
