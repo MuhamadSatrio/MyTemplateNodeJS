@@ -4,8 +4,61 @@ const validator = require('validator')
 const Bcrypt = require('#helpers/Bcrypt')
 const jwt = require('jsonwebtoken')
 const GeneralError = require('#errors/definitions/general-error')
+require('dotenv').config()
+const { google } = require('googleapis')
+
+const oauth2Client = new google.auth.OAuth2(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  'http://localhost:3010/login/google/callback'
+)
+
+const scopes = [
+  'https://www.googleapis.com/auth/userinfo.email',
+  'https://www.googleapis.com/auth/userinfo.profile'
+]
+
+const authorizationUrl = oauth2Client.generateAuthUrl({
+  access_type: 'offline',
+  scope: scopes,
+  include_granted_scopes: true
+})
 
 module.exports = class Controller {
+  static async loginGoogle (req, res) {
+    res.redirect(authorizationUrl)
+  }
+
+  static async callback (req, res) {
+    const { code } = req.query
+    const { tokens } = await oauth2Client.getToken(code)
+
+    oauth2Client.setCredentials(tokens)
+
+    const oauth2 = google.oauth2({
+      auth: oauth2Client,
+      version: 'v2'
+    })
+
+    const { data } = await oauth2.userinfo.get()
+    const user = await StaffService.findByEmail(data.email)
+    if (!user) throw GeneralError.invalidLoginCredential()
+
+    const token = jwt.sign(
+      {
+        staffId: user.staffId,
+        username: user.username
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: '1d' }
+    )
+
+    return res.json({
+      staffId: user.staffId,
+      token
+    })
+  }
+
   static async list (req, res) {
     const { query } = req
 
@@ -20,7 +73,7 @@ module.exports = class Controller {
 
   static async register (req, res) {
     const { body } = req
-    const { email, staffId, password } = body
+    const { email, password } = body
 
     await Controller._validation(body)
 
@@ -46,14 +99,14 @@ module.exports = class Controller {
     }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
 
     return res.serializePost({
-      staffId,
+      staffId: createdStaff.staffId,
       token: accessToken
     })
   }
 
   static async login (req, res) {
     const { body } = req
-    const { email, staffId, password } = body
+    const { email, password } = body
 
     await Controller._validation(body)
 
@@ -74,7 +127,7 @@ module.exports = class Controller {
     }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
 
     return res.serialize({
-      staffId,
+      staffId: staff.staffId,
       token: accessToken
     })
   }
