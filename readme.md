@@ -1,7 +1,7 @@
 # template
 Nama : Muhamad Satrio
 
-Tech yang digunakan adalah NodeJS Express, MysSQL, dan Sequelize, Berikut adalah cara menjalankannya:
+Tech yang digunakan adalah NodeJS Express, PostgreSQL, dan Sequelize, Berikut adalah cara menjalankannya:
 
 Link github: https://github.com/MuhamadSatrio/kotakode
 Dokumentasi API: https://documenter.getpostman.com/view/26114982/2s9YJXYjvt
